@@ -17,7 +17,7 @@ app.post("/accounts", (request, response) => {
   const { cpf, name } = request.body;
 
   const customerAlreadyExists = customers.some(
-    (customer) => customer.cpf === cpf
+    customer => customer.cpf === cpf
   );
 
   if (customerAlreadyExists) {
@@ -33,5 +33,17 @@ app.post("/accounts", (request, response) => {
 
   return response.status(201).json(customers);
 });
+
+app.get("/statement", (request, response) => {
+  const { cpf } = request.headers;
+
+  const customer = customers.find(customer => customer.cpf === cpf);
+
+  if (!customer) {
+    return response.status(400).json({ error: "Customer not found" })
+  }
+
+  return response.status(200).json(customer.statement)
+})
 
 app.listen(3333);
