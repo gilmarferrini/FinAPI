@@ -120,5 +120,18 @@ app.get("/statement/date", verifyIfExistsAccountCPF, (request, response) => {
   return response.status(200).json(statement);
 })
 
+app.put("/accounts", verifyIfExistsAccountCPF, (request, response) => {
+  const { name } = request.body;
+  const { customer } = request;
+
+  customer.name = name;
+
+  return response.status(200).send()
+});
+
+app.get("/accounts", verifyIfExistsAccountCPF, (request, response) => {
+  const { customer } = request;
+  return response.json(customer);
+});
 
 app.listen(3333);
